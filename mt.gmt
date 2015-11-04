@@ -1,0 +1,14 @@
+#! /bin/bash -f
+
+title=Seismicity
+PS=MT.ps
+#J="14/8"
+J=X6i/2i
+R=1/2448/0/9
+
+gmt psbasemap -J$J -R$R -BWSen+t"$title"  -Bya1f0.5+lMagnitude -BpxcDateTick_px.txt -Y10 -P -K > $PS
+gmt psbasemap -J$J -R$R -BsxcDateTick_sx.txt -K -O >> $PS
+awk '{print $1, $3}' eq.dat | gmt psxy -JX6i/2i -R1/2192/3/9 -Sc0.1c -W1p,black -O >> $PS
+ps2raster -A -Tj $PS
+
+rm gmt.*
